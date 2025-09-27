@@ -126,7 +126,7 @@ export const updateProfile = async (req, res) => {
 
     const userId = req.user._id;
 
-    const folderPath = `${ENV.CLOUDNARY_FOLDER_PATH}/${userId}`;
+    const folderPath = `${ENV.CLOUDNARY_FOLDER_PATH}/user/${userId}`;
 
     const uploadResponse = await cloudinary.uploader.upload(profilePic, {
       folder: folderPath,

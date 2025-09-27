@@ -14,7 +14,7 @@ import { arcjetProtection } from "../middlewares/arcjet.middleware.js";
 
 const authRoute = express.Router();
 
-authRoute.use(arcjetProtection);
+// authRoute.use(arcjetProtection);
 
 authRoute.post("/signup", signup);
 authRoute.post("/login", login);

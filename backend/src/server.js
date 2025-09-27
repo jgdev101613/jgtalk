@@ -20,7 +20,7 @@ app.use(cookieParse());
 
 // Routes
 app.use("/api/auth", authRoute);
-app.use("/api/auth", messsageRoute);
+app.use("/api/message", messsageRoute);
 
 // Deployment
 if (ENV.NODE_ENV === "production") {
