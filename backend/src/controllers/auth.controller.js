@@ -138,15 +138,13 @@ export const updateProfile = async (req, res) => {
         profileImage: uploadResponse.secure_url,
       },
       { new: true }
-    );
+    ).select("-password");
 
-    return res
-      .status(200)
-      .json({
-        success: true,
-        message: "Profile Image updated successfully",
-        updatedUser,
-      });
+    return res.status(200).json({
+      success: true,
+      message: "Profile Image updated successfully",
+      updatedUser,
+    });
   } catch (error) {
     console.error("Error in updateProfile controller: ", error);
     return res
