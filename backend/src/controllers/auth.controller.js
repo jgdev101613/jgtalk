@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import { generateToken } from "../lib/utils.js";
 import { sendWelcomeEmail } from "../emails/emailHandlers.js";
 import { ENV } from "../lib/env.js";
+import cloudinary from "../lib/cloudinary.js";
 
 export const signup = async (req, res) => {
   const { fullName, email, password } = req.body;
@@ -103,7 +104,7 @@ export const login = async (req, res) => {
       user: userWithoutPassword,
     });
   } catch (error) {
-    console.error("Error in logib controller: ", error);
+    console.error("Error in login controller: ", error);
     return res
       .status(500)
       .json({ success: false, message: "Internal Server Error" });
@@ -113,4 +114,43 @@ export const login = async (req, res) => {
 export const logout = async (_, res) => {
   res.cookie("jwt", "", { maxAge: 0 });
   res.status(200).json({ success: true, message: "Logged out successfulyy" });
+};
+
+export const updateProfile = async (req, res) => {
+  const { profilePic } = req.body;
+  try {
+    if (!profilePic)
+      return res
+        .status(400)
+        .json({ success: false, message: "Profile picture is required" });
+
+    const userId = req.user._id;
+
+    const folderPath = `${ENV.CLOUDNARY_FOLDER_PATH}/${userId}`;
+
+    const uploadResponse = await cloudinary.uploader.upload(profilePic, {
+      folder: folderPath,
+    });
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        profileImage: uploadResponse.secure_url,
+      },
+      { new: true }
+    );
+
+    return res
+      .status(200)
+      .json({
+        success: true,
+        message: "Profile Image updated successfully",
+        updatedUser,
+      });
+  } catch (error) {
+    console.error("Error in updateProfile controller: ", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal Server Error" });
+  }
 };

@@ -1,4 +1,5 @@
 import express from "express";
+import cookieParse from "cookie-parser";
 import path from "path";
 
 // Import Lib
@@ -15,6 +16,7 @@ const __dirname = path.resolve();
 const PORT = ENV.PORT || 3000;
 
 app.use(express.json());
+app.use(cookieParse());
 
 // Routes
 app.use("/api/auth", authRoute);
