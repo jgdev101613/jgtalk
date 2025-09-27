@@ -7,9 +7,14 @@ import {
   logout,
   updateProfile,
 } from "../controllers/auth.controller.js";
+
+// Import Middlewares
 import { protectRoute } from "../middlewares/auth.middleware.js";
+import { arcjetProtection } from "../middlewares/arcjet.middleware.js";
 
 const authRoute = express.Router();
+
+authRoute.use(arcjetProtection);
 
 authRoute.post("/signup", signup);
 authRoute.post("/login", login);
