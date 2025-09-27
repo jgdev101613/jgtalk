@@ -5,16 +5,31 @@ import { ENV } from "../lib/env.js";
 export const protectRoute = async (req, res, next) => {
   try {
     const token = req.cookies.jwt;
+    const { JWT_SECRET } = ENV;
+
     if (!token)
       return res
         .status(401)
         .json({ success: false, message: "Unauthorized - Please login first" });
 
-    const decoded = jwt.verify(token, ENV.JWT_SECRET);
-    if (!decoded)
+    if (!JWT_SECRET) {
+      console.log("JWT_SECRET is not configured!");
       return res
-        .status(401)
-        .json({ success: false, message: "Unauthorized - Invalid token" });
+        .status(500)
+        .json({ success: false, message: "Server misconfiguration" });
+    }
+
+    let decoded;
+
+    try {
+      decoded = jwt.verify(token, JWT_SECRET);
+    } catch (error) {
+      const msg =
+        error.name === "TokenExpiredError"
+          ? "Unauthorized - Token Expired"
+          : "Unauthorized - Invalid Token";
+      return res.status(401).json({ success: false, message: msg });
+    }
 
     const user = await User.findById(decoded.userId).select("-password");
     if (!user)
@@ -25,7 +40,7 @@ export const protectRoute = async (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
-    console.log("Error in protectRoute middleware: ", error);
+    console.error("Error in protectRoute middleware: ", error);
     res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 };
