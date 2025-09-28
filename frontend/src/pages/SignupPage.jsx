@@ -4,7 +4,13 @@ import BorderAnimation from "../components/BorderAnimation";
 import { Link } from "react-router";
 
 // Import Icons
-import { LoaderIcon, Mail, MessageCircleIcon, UserIcon } from "lucide-react";
+import {
+  LoaderIcon,
+  Mail,
+  MessageCircleIcon,
+  UserIcon,
+  LockIcon,
+} from "lucide-react";
 
 const SignupPage = () => {
   const [formData, setFormData] = useState({

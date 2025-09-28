@@ -96,7 +96,7 @@ const LoginPage = () => {
                 </form>
 
                 <div className="mt-6 text-center">
-                  <Link to={"/login"} className="auth-link">
+                  <Link to={"/signup"} className="auth-link">
                     Dont have an account? Register
                   </Link>
                 </div>
