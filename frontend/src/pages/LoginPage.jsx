@@ -4,13 +4,7 @@ import BorderAnimation from "../components/BorderAnimation";
 import { Link } from "react-router";
 
 // Import Icons
-import {
-  LoaderIcon,
-  LockIcon,
-  Mail,
-  MessageCircleIcon,
-  UserIcon,
-} from "lucide-react";
+import { LoaderIcon, LockIcon, Mail } from "lucide-react";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
