@@ -118,9 +118,9 @@ export const logout = async (_, res) => {
 };
 
 export const updateProfile = async (req, res) => {
-  const { profilePic } = req.body;
+  const { profileImage } = req.body;
   try {
-    if (!profilePic)
+    if (!profileImage)
       return res
         .status(400)
         .json({ success: false, message: "Profile picture is required" });
@@ -129,7 +129,7 @@ export const updateProfile = async (req, res) => {
 
     const folderPath = `${ENV.CLOUDNARY_FOLDER_PATH}/user/${userId}`;
 
-    const uploadResponse = await cloudinary.uploader.upload(profilePic, {
+    const uploadResponse = await cloudinary.uploader.upload(profileImage, {
       folder: folderPath,
     });
 
