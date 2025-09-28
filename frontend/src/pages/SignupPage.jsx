@@ -77,7 +77,7 @@ const SignupPage = () => {
                   <div>
                     <label className="auth-input-label">Password</label>
                     <div className="relative">
-                      <Mail className="auth-input-icon" />
+                      <LockIcon className="auth-input-icon" />
                       <input
                         type="password"
                         placeholder="Password"
